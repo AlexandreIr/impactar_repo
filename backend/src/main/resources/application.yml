@@ -46,13 +46,11 @@ app:
 
   mail:
     from-name: impactar
-    primary:                                   # Brevo
-      host: smtp-relay.brevo.com
-      port: 587
-      username: ${BREVO_SMTP_LOGIN:}
-      password: ${BREVO_SMTP_KEY:}
-      from: ${BREVO_FROM:}                      # remetente verificado no Brevo
-    fallback:                                  # Gmail (senha de app)
+    brevo:                                     # principal: API HTTP (porta 443)
+      base-url: https://api.brevo.com/v3
+      api-key: ${BREVO_API_KEY:}
+      from: ${BREVO_FROM:}                     # remetente verificado no Brevo
+    gmail:                                     # fallback: SMTP (bloqueado no Render free)
       host: smtp.gmail.com
       port: 587
       username: ${GMAIL_USERNAME:}

@@ -32,12 +32,15 @@ DB_PASSWORD=...
 JWT_SECRET=...            # NOVO segredo: openssl rand -base64 48
 COOKIE_SECURE=true
 FRONTEND_URL=https://SEU-APP.vercel.app    # ajuste após o passo 3
-BREVO_SMTP_LOGIN=...
-BREVO_SMTP_KEY=...
-BREVO_FROM=...
-GMAIL_USERNAME=...
+BREVO_API_KEY=xkeysib-...   # Brevo → SMTP & API → aba "API Keys"
+BREVO_FROM=...              # remetente verificado em Brevo → Senders
+GMAIL_USERNAME=...          # fallback; não funciona no Render free (SMTP bloqueado)
 GMAIL_APP_PASSWORD=...
 ```
+
+> O Render free bloqueia as portas SMTP (25/465/587). Por isso o envio principal é pela
+> **API HTTP do Brevo** (porta 443). Se o log mostrar `Brevo respondeu 401` com "unrecognised IP",
+> autorize o IP em Brevo → (seu nome) → **Security → Authorized IPs** ou desative o bloqueio de IPs desconhecidos.
 
 Teste: `https://SEU-SERVICO.onrender.com/api/actuator/health` → `{"status":"UP"}`
 
