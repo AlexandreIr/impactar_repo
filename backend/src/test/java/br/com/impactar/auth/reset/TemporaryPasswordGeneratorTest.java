@@ -1,4 +1,4 @@
-package br.gov.sp.impactar.auth;
+package br.com.impactar.auth.reset;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

@@ -1,5 +1,6 @@
 package br.com.impactar.course;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,4 +16,13 @@ public interface LessonRepository extends JpaRepository<Lesson, UUID> {
 
     @Query("select coalesce(max(l.orderIndex), -1) from Lesson l where l.module.id = :moduleId")
     int findMaxOrderIndex(@Param("moduleId") UUID moduleId);
+
+    /** Total de aulas por curso (cálculo de progresso). */
+    @Query("""
+            select new br.com.impactar.course.CourseLessonCount(m.course.id, count(l))
+            from Lesson l join l.module m
+            where m.course.id in :courseIds
+            group by m.course.id
+            """)
+    List<CourseLessonCount> countLessonsByCourse(@Param("courseIds") Collection<UUID> courseIds);
 }

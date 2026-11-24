@@ -65,4 +65,11 @@ public class AuthService {
         user.changePassword(passwordEncoder.encode(newPassword));
         return user;
     }
+
+    @Transactional
+    public User updateProfile(UUID userId, String name) {
+        User user = getActiveUser(userId);
+        user.setName(name.trim());
+        return user;
+    }
 }

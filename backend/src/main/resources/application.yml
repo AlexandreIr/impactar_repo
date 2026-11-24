@@ -41,6 +41,9 @@ app:
     cookie-name: impactar_token
     cookie-secure: ${COOKIE_SECURE:false}      # true em produção (HTTPS)
 
+  password-reset:
+    expiration: 10m                            # validade do link "esqueci minha senha"
+
   mail:
     from-name: impactar
     primary:                                   # Brevo

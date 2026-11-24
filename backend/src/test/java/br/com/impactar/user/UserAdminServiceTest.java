@@ -1,4 +1,4 @@
-package br.gov.sp.impactar.user;
+package br.com.impactar.user;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

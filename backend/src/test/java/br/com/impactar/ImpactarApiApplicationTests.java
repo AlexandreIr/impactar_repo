@@ -1,4 +1,4 @@
-package br.gov.sp.impactar;
+package br.com.impactar;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

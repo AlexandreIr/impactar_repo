@@ -10,4 +10,7 @@ public interface CourseRepository extends JpaRepository<Course, UUID> {
     List<Course> findByInstructor_IdOrderByUpdatedAtDesc(UUID instructorId);
 
     List<Course> findAllByOrderByUpdatedAtDesc();
+
+    /** Catálogo do aluno. */
+    List<Course> findByPublishedTrueOrderByTitleAsc();
 }

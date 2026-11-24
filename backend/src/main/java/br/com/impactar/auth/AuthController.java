@@ -5,6 +5,7 @@ import java.util.UUID;
 import br.com.impactar.auth.dto.ChangePasswordRequest;
 import br.com.impactar.auth.dto.LoginRequest;
 import br.com.impactar.auth.dto.MeResponse;
+import br.com.impactar.auth.dto.UpdateProfileRequest;
 import br.com.impactar.user.User;
 import jakarta.validation.Valid;
 
@@ -14,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * POST /api/auth/logout           -> apaga cookie
  * GET  /api/auth/me               -> usuário da sessão
  * POST /api/auth/change-password  -> troca senha + novo cookie (mcp=false)
+ * PUT  /api/auth/profile          -> atualiza nome + novo cookie
  */
 @RestController
 @RequestMapping("/auth")
@@ -61,6 +64,13 @@ public class AuthController {
                                                      @Valid @RequestBody ChangePasswordRequest request) {
         User user = authService.changePassword(userId(jwt), request.currentPassword(), request.newPassword());
         return withSession(user);
+    }
+
+    /** Atualiza o nome e renova o cookie (o nome também vai no JWT). */
+    @PutMapping("/profile")
+    public ResponseEntity<MeResponse> updateProfile(@AuthenticationPrincipal Jwt jwt,
+                                                    @Valid @RequestBody UpdateProfileRequest request) {
+        return withSession(authService.updateProfile(userId(jwt), request.name()));
     }
 
     private ResponseEntity<MeResponse> withSession(User user) {

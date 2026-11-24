@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -25,6 +26,10 @@ public class EmailService {
     private record Provider(String name, JavaMailSender sender, String from) {
     }
 
+    /** Arquivo anexado ao e-mail (ex.: certificado em PDF). */
+    public record Attachment(String fileName, byte[] content, String contentType) {
+    }
+
     private final List<Provider> providers = new ArrayList<>();
     private final String fromName;
 
@@ -38,6 +43,10 @@ public class EmailService {
     }
 
     public void send(String to, String subject, String html, String text) {
+        send(to, subject, html, text, null);
+    }
+
+    public void send(String to, String subject, String html, String text, Attachment attachment) {
         MailException lastError = null;
 
         for (Provider provider : providers) {
@@ -47,6 +56,10 @@ public class EmailService {
                 helper.setTo(to);
                 helper.setSubject(subject);
                 helper.setText(text, html);
+                if (attachment != null) {
+                    helper.addAttachment(attachment.fileName(),
+                            new ByteArrayResource(attachment.content()), attachment.contentType());
+                }
             };
             try {
                 provider.sender().send(preparator);
