@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { UserRound } from "lucide-react";
 
 import { LogoutButton } from "@/components/logout-button";
 import { NAV_BY_ROLE } from "@/lib/roles";
@@ -46,7 +47,20 @@ export function AppHeader({ title }: { title: string }) {
           )}
         </div>
         <div className="flex items-center gap-3">
-          {me && <span className="hidden text-sm text-muted-foreground sm:inline">{me.name}</span>}
+          {me && (
+            <Link
+              href="/perfil"
+              className={cn(
+                "flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",
+                pathname.startsWith("/perfil") && "bg-muted text-foreground",
+              )}
+              title="Meu perfil"
+            >
+              <UserRound className="size-4" />
+              <span className="hidden sm:inline">{me.name}</span>
+              <span className="sm:hidden">Perfil</span>
+            </Link>
+          )}
           <LogoutButton />
         </div>
       </div>

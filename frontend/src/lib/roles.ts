@@ -17,12 +17,18 @@ export interface NavItem {
 export const NAV_BY_ROLE: Record<Role, NavItem[]> = {
   ADMIN: [
     { href: "/admin/usuarios", label: "Usuários" },
+    { href: "/admin/trilhas", label: "Trilhas" },
     { href: "/instrutor", label: "Cursos" },
     { href: "/cursos", label: "Área do aluno" },
+    { href: "/certificados", label: "Certificados" },
   ],
   INSTRUCTOR: [
     { href: "/instrutor", label: "Meus cursos" },
     { href: "/cursos", label: "Área do aluno" },
+    { href: "/certificados", label: "Certificados" },
   ],
-  STUDENT: [{ href: "/cursos", label: "Cursos" }],
+  STUDENT: [
+    { href: "/cursos", label: "Cursos" },
+    { href: "/certificados", label: "Certificados" },
+  ],
 };

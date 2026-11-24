@@ -33,6 +33,11 @@ api.interceptors.response.use(
   },
 );
 
+/** Status HTTP de um erro do axios (undefined se não houve resposta). */
+export function getErrorStatus(error: unknown): number | undefined {
+  return axios.isAxiosError(error) ? error.response?.status : undefined;
+}
+
 /** Extrai a mensagem amigável (campo "detail" do ProblemDetail do backend). */
 export function getErrorMessage(error: unknown, fallback = "Erro inesperado. Tente novamente."): string {
   if (axios.isAxiosError(error)) {

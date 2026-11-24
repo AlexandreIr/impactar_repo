@@ -4,8 +4,16 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import { AUTH_COOKIE, CHANGE_PASSWORD_PATH, LOGIN_PATH, decodeToken, homeFor } from "@/lib/auth";
 
+/** Páginas acessíveis com ou sem login. */
+const PUBLIC_PATHS = ["/validar", "/esqueci-senha", "/redefinir-senha"];
+
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+
+  if (PUBLIC_PATHS.some((path) => pathname === path || pathname.startsWith(`${path}/`))) {
+    return NextResponse.next();
+  }
+
   const token = request.cookies.get(AUTH_COOKIE)?.value;
   const session = token ? decodeToken(token) : null;
   const redirectTo = (path: string) => NextResponse.redirect(new URL(path, request.url));

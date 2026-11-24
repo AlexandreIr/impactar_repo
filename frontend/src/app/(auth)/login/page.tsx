@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { z } from "zod";
 
 import { FieldError } from "@/components/field-error";
+import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -70,17 +72,24 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Senha</Label>
-              <Input
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password">Senha</Label>
+
+              </div>
+              <PasswordInput
                 id="password"
-                type="password"
                 autoComplete="current-password"
                 aria-invalid={!!errors.password}
                 {...register("password")}
               />
               <FieldError message={errors.password?.message} />
+              <Link
+                  href="/esqueci-senha"
+                  className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+              >
+                Esqueci minha senha
+              </Link>
             </div>
-
             <Button type="submit" className="w-full" disabled={busy}>
               {busy ? "Entrando..." : "Entrar"}
             </Button>

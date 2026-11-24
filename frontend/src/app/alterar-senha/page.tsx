@@ -8,9 +8,9 @@ import { z } from "zod";
 
 import { FieldError } from "@/components/field-error";
 import { LogoutButton } from "@/components/logout-button";
+import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getErrorMessage } from "@/lib/api";
 import { homeFor } from "@/lib/auth";
@@ -70,9 +70,8 @@ export default function ChangePasswordPage() {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
             <div className="space-y-2">
               <Label htmlFor="currentPassword">Senha atual (provisória)</Label>
-              <Input
+              <PasswordInput
                 id="currentPassword"
-                type="password"
                 autoComplete="current-password"
                 aria-invalid={!!errors.currentPassword}
                 {...register("currentPassword")}
@@ -82,9 +81,8 @@ export default function ChangePasswordPage() {
 
             <div className="space-y-2">
               <Label htmlFor="newPassword">Nova senha</Label>
-              <Input
+              <PasswordInput
                 id="newPassword"
-                type="password"
                 autoComplete="new-password"
                 aria-invalid={!!errors.newPassword}
                 {...register("newPassword")}
@@ -94,9 +92,8 @@ export default function ChangePasswordPage() {
 
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">Confirme a nova senha</Label>
-              <Input
+              <PasswordInput
                 id="confirmPassword"
-                type="password"
                 autoComplete="new-password"
                 aria-invalid={!!errors.confirmPassword}
                 {...register("confirmPassword")}
