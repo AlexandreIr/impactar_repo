@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: impactar-api
+
+  # Lê variáveis do arquivo backend/.env (fora do git)
+  config:
+    import: optional:file:.env[.properties]
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 5
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate   # schema é responsabilidade do Flyway
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        default_batch_fetch_size: 50   # carrega módulos/aulas/materiais em lote (evita N+1)
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+app:
+  frontend-url: ${FRONTEND_URL:http://localhost:3000}   # usado nos links dos e-mails
+
+  jwt:
+    secret: ${JWT_SECRET}                      # mínimo 32 bytes
+    expiration: 8h
+    cookie-name: impactar_token
+    cookie-secure: ${COOKIE_SECURE:false}      # true em produção (HTTPS)
+
+  mail:
+    from-name: impactar
+    primary:                                   # Brevo
+      host: smtp-relay.brevo.com
+      port: 587
+      username: ${BREVO_SMTP_LOGIN:}
+      password: ${BREVO_SMTP_KEY:}
+      from: ${BREVO_FROM:}                      # remetente verificado no Brevo
+    fallback:                                  # Gmail (senha de app)
+      host: smtp.gmail.com
+      port: 587
+      username: ${GMAIL_USERNAME:}
+      password: ${GMAIL_APP_PASSWORD:}
+      from: ${GMAIL_USERNAME:}
